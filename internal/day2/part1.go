@@ -2,7 +2,6 @@ package day2
 
 import (
 	"fmt"
-	"math"
 	"slices"
 	"strings"
 
@@ -12,17 +11,17 @@ import (
 
 func Part1Answer() {
 	input := files.MustRead("inputdata/day2/real.txt")
-	fmt.Printf("Day 2 Part 1 answer: %d\n", sumInvalidIDs(input))
+	fmt.Printf("Day 2 Part 1 answer: %d\n", sumInvalidIDs(input, checkRangePart1))
 }
 
-func sumInvalidIDs(input string) int {
+func sumInvalidIDs(input string, checkFunc func(int, int) map[int]struct{}) int {
 	rangesRaw := strings.Split(input, ",")
 	m := make(map[int]struct{})
 	for _, r := range rangesRaw {
 		nums := strings.Split(r, "-")
 		start := parsing.MustParseInt(nums[0])
 		end := parsing.MustParseInt(nums[1])
-		hits := checkRange(start, end)
+		hits := checkFunc(start, end)
 		m = mergeMaps(m, hits)
 	}
 	sum := 0
@@ -32,7 +31,7 @@ func sumInvalidIDs(input string) int {
 	return sum
 }
 
-func checkRange(start, end int) map[int]struct{} {
+func checkRangePart1(start, end int) map[int]struct{} {
 	hits := make(map[int]struct{})
 	for i := start; i <= end; i++ {
 		d := intToDigits(i)
@@ -64,12 +63,12 @@ func intToDigits(n int) []int {
 	return slc
 }
 
-func digitsToInt(d []int) int {
-	res := 0
-	for i, digit := range d {
-		multiplier := int(math.Pow10(len(d) - (i + 1)))
-		res += multiplier * digit
-	}
-	return res
-}
+// func digitsToInt(d []int) int {
+// 	res := 0
+// 	for i, digit := range d {
+// 		multiplier := int(math.Pow10(len(d) - (i + 1)))
+// 		res += multiplier * digit
+// 	}
+// 	return res
+// }
 
