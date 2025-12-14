@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	day1.Part1Answer()
+	// day1.Part1Answer()
+	day1.Part2Answer()
 }
